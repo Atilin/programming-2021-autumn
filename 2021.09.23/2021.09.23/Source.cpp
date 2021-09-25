@@ -269,6 +269,6 @@ int main()
 	cin >> index;
 	l.delp(index);
 	l.Print();
-	//
+	
 	return EXIT_SUCCESS;
 }
