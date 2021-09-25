@@ -19,6 +19,8 @@ public:
 	DList() { head = nullptr; tail = nullptr; }
 	// конструктор, создающий пустой список
 
+	int count = 0;
+
 	void add_first(int d)
 	{
 		DNode* t;
@@ -37,8 +39,8 @@ public:
 		{
 			head->prev = t;
 			head = t;
-
 		}
+		count++;
 	}
 
 	void del_first() // удалить узел из начала списка
@@ -60,6 +62,7 @@ public:
 		head = head->next;
 		head->prev = nullptr;
 		delete t;
+		count--;
 	}
 
 	void add_last(int d)
@@ -80,6 +83,7 @@ public:
 			tail->next = t;
 			tail = t;
 		}
+		count++;
 	}
 
 	void add_after_first(int d)
@@ -99,7 +103,7 @@ public:
 			head->next->prev = t;
 			head->next = t;
 		}
-		//t = new DNode(d, head, nullptr);
+		count++;
 	}
 
 	void del_last()
@@ -121,6 +125,7 @@ public:
 		tail = tail->prev;
 		tail->next = nullptr;
 		delete t;
+		count--;
 	}
 
 	void del_second()
@@ -138,6 +143,60 @@ public:
 			head->next->prev = head;
 		}
 		delete t;
+		count--;
+	}
+
+	void insertp(int index, int d)
+	{
+		if (index == 0)
+		{
+			return add_first(d);
+		}
+		if (index == count)
+		{
+			return add_last(d);
+		}
+
+		DNode* t = head;
+		for (int i = 0; i < index - 1; ++i)
+		{
+			t = t->next;
+		}
+		t->next = new DNode(d, t->next, t);
+		t->next->next->prev = t->next;
+		t->next->next->prev->prev = t;
+		++count;
+	}
+
+	void delp(int index)
+	{
+		if (head == nullptr)
+		{
+			cout << "List is empty" << endl;
+			return;
+		}
+		int oldElement;
+		if (index == 0)
+		{
+			del_first();
+		}
+		else if (index == count - 1)
+		{
+			del_last();
+		}
+		else
+		{
+			DNode* t = head;
+			for (int i = 0; i < index - 1; ++i)
+			{
+				t = t->next;
+			}
+			DNode* p = t->next;
+			t->next = t->next->next;
+			t->next->prev = t;
+			delete p;
+			count--;
+		}
 	}
 
 	void print() // печать в прямом порядке
@@ -194,6 +253,21 @@ int main()
 
 	cout << "del_second: " << endl;
 	l.del_second();
+	l.Print();
+
+	cout << "insertp: " << endl<<"index: ";
+	int index = 0;
+	cin >> index;
+	cout << "data: ";
+	int d = 0;
+	cin >> d;
+	l.insertp(index, d);
+	l.Print();
+
+	cout << "delp: " << endl << "index: ";
+	index = 0;
+	cin >> index;
+	l.delp(index);
 	l.Print();
 
 	return EXIT_SUCCESS;
