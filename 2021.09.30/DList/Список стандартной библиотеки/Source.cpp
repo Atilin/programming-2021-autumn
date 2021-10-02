@@ -26,7 +26,7 @@ ostream& operator << (ostream& st, list <Subscriber> l)
 }
 //istream& operator >> (istream& st, list <Subscriber> l)
 //{
-//	
+//	st >> 
 //}
 
 
