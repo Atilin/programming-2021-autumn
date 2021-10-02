@@ -22,33 +22,34 @@ istream& operator >> (istream& st, Subscriber& x)
 
 ostream& operator << (ostream& st, list <Subscriber> l)
 {
-	return st << print(l, l.begin());
-}
-//istream& operator >> (istream& st, list <Subscriber> l)
-//{
-//	st >> 
-//}
-
-
-//void print(list <Subscriber> l)
-//{
-//	cout << "Список содержит следующие элементы:\n\n";
-//	list <Subscriber> ::iterator i;
-//	for (i = l.begin(); i != l.end(); ++i)
-//		cout << *i << endl;
-//	cout << endl;
-//	//for (Subscriber x : l) // короткий цикл
-//	//	cout << x << " ";
-//	//cout << endl;
-//}
-
-Subscriber print(list <Subscriber> l, list <Subscriber> ::iterator i)
-{
-	if (i != l.end())
+	list <Subscriber> ::iterator i;
+	for (i = l.begin(); i != l.end(); ++i)
 	{
-		print(l, i++);
-		return *i;
+		st << *i << endl;
 	}
+	return st;
+}
+istream& operator >> (istream& st, list <Subscriber> l)
+{
+	Subscriber x;
+	while (cin >> x)
+	{
+		st >> x;
+	}
+	return st;
+}
+
+
+void print(list <Subscriber> l)
+{
+	cout << "Список содержит следующие элементы:\n\n";
+	list <Subscriber> ::iterator i;
+	for (i = l.begin(); i != l.end(); ++i)
+		cout << *i << endl;
+	cout << endl;
+	//for (Subscriber x : l) // короткий цикл
+	//	cout << x << " ";
+	//cout << endl;
 }
 
 void menu()
@@ -63,13 +64,14 @@ int main()
 	list <Subscriber> l;
 
 	cout << "Введите данные в формате *номер*, *имя*, *адрес* (Ctrl Z - конец ввода)" << endl;
-	Subscriber x;
 
-	while (cin >> x)
+	Subscriber x;
+	/*while (cin >> x)
 	{
 		l.push_back(x);
-	}
+	}*/
 
+	cin >> l;
 
 	cin.clear();
 	int select = 0;
@@ -122,7 +124,8 @@ int main()
 				}
 			}
 		}
-		cout<<l;
+		cout << "\nСписок содержит следующие элементы:\n\n";
+		cout << l;
 
 	} while (select != 4);
 
