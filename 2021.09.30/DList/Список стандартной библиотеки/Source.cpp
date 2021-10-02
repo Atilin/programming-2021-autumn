@@ -24,10 +24,9 @@ ostream& operator << (ostream& st, list <Subscriber> l)
 {
 	return st << print(l, l.begin());
 }
-//istream& operator >> (istream& st, Subscriber& x)
+//istream& operator >> (istream& st, list <Subscriber> l)
 //{
-//	st >> x.phone >> x.name >> x.address;
-//	return st;
+//	
 //}
 
 
