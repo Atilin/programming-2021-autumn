@@ -25,31 +25,85 @@ void menu()
 	cout << " Меню:\n1. Добавить абонента\n2. Удалить абонента по номеру\n3. Распечатать имя и адрес абонента по номеру телефона\n4. Выйти из программы\n\nПожалуйста, введите желаемый пункт меню: ";
 }
 
+void print(list <Subscriber> l)
+{
+	cout << "Список содержит следующие элементы:\n\n";
+	list <Subscriber> ::iterator i;
+	for (i = l.begin(); i != l.end(); ++i)
+		cout << *i << endl;
+	cout << endl;
+	//for (Subscriber x : l) // короткий цикл
+	//	cout << x << " ";
+	//cout << endl;
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Russian"); //для вывода русских букв
 
 	list <Subscriber> l;
 
-	cout << "Введите данные в формате *номер* *имя* *адрес* (Ctrl Z - конец ввода)" << endl;
+	cout << "Введите данные в формате *номер*, *имя*, *адрес* (Ctrl Z - конец ввода)" << endl;
 	Subscriber x;
+
 	while (cin >> x)
+	{
 		l.push_back(x);
+	}
 
-	list <Subscriber> ::iterator i;
-	for (i = l.begin(); i != l.end(); ++i)
-		cout << *i << ' ';
-	cout << endl;
 
-	//for (int x : l) // короткий цикл
-	//	cout << x << " ";
-	//cout << endl;
-
+	cin.clear();
 	int select = 0;
 	do
 	{
 		menu();
 		cin >> select;
+		if (select == 1)
+		{
+			cout << "Введите *телефон*, *имя*, *адрес*\n";
+			cin >> x;
+			l.push_back(x);
+		}
+		if (select == 2)
+		{
+			cout << "Введите номер абонента: ";
+			string s;
+			cin >> s;
+			list <Subscriber> ::iterator i;
+			for (i = l.begin(); i != l.end(); ++i)
+			{
+				if ((*i).phone == s)
+				{
+					l.erase(i);
+					break;
+				}
+			}
+			cout << endl;
+			//for (Subscriber x : l) // короткий цикл
+			//{
+			//	if (x.phone == s)
+			//	{
+			//		l.erase(i);
+			//		break;
+			//	}
+			//}
+		}
+		if (select == 3)
+		{
+			cout << "Введите номер абонента: ";
+			string s;
+			cin >> s;
+			list <Subscriber> ::iterator i;
+			for (i = l.begin(); i != l.end(); ++i)
+			{
+				if ((*i).phone == s)
+				{
+					cout << "Имя: " << (*i).name << " Адрес: " << (*i).address << endl;
+					break;
+				}
+			}
+		}
+		print(l);
 
 	} while (select != 4);
 
