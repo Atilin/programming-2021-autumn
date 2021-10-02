@@ -1,0 +1,57 @@
+#include <iostream>
+#include <list>
+#include <cstdlib>
+#include <string>
+
+using namespace std;
+
+struct Subscriber
+{
+	string phone, name, address;
+};
+
+ostream& operator << (ostream& st, Subscriber x)
+{
+	return st << "Телефон: " << x.phone << endl << "Имя: " << x.name << endl << "Адрес: " << x.address << endl;
+}
+istream& operator >> (istream& st, Subscriber& x)
+{
+	st >> x.phone >> x.name >> x.address;
+	return st;
+}
+
+void menu()
+{
+	cout << " Меню:\n1. Добавить абонента\n2. Удалить абонента по номеру\n3. Распечатать имя и адрес абонента по номеру телефона\n4. Выйти из программы\n\nПожалуйста, введите желаемый пункт меню: ";
+}
+
+int main()
+{
+	setlocale(LC_ALL, "Russian"); //для вывода русских букв
+
+	list <Subscriber> l;
+
+	cout << "Введите данные в формате *номер* *имя* *адрес* (Ctrl Z - конец ввода)" << endl;
+	Subscriber x;
+	while (cin >> x)
+		l.push_back(x);
+
+	list <Subscriber> ::iterator i;
+	for (i = l.begin(); i != l.end(); ++i)
+		cout << *i << ' ';
+	cout << endl;
+
+	//for (int x : l) // короткий цикл
+	//	cout << x << " ";
+	//cout << endl;
+
+	int select = 0;
+	do
+	{
+		menu();
+		cin >> select;
+
+	} while (select != 4);
+
+	return EXIT_SUCCESS;
+}
