@@ -20,21 +20,41 @@ istream& operator >> (istream& st, Subscriber& x)
 	return st;
 }
 
+ostream& operator << (ostream& st, list <Subscriber> l)
+{
+	return st << print(l, l.begin());
+}
+//istream& operator >> (istream& st, Subscriber& x)
+//{
+//	st >> x.phone >> x.name >> x.address;
+//	return st;
+//}
+
+
 void menu()
 {
 	cout << " Меню:\n1. Добавить абонента\n2. Удалить абонента по номеру\n3. Распечатать имя и адрес абонента по номеру телефона\n4. Выйти из программы\n\nПожалуйста, введите желаемый пункт меню: ";
 }
 
-void print(list <Subscriber> l)
+//void print(list <Subscriber> l)
+//{
+//	cout << "Список содержит следующие элементы:\n\n";
+//	list <Subscriber> ::iterator i;
+//	for (i = l.begin(); i != l.end(); ++i)
+//		cout << *i << endl;
+//	cout << endl;
+//	//for (Subscriber x : l) // короткий цикл
+//	//	cout << x << " ";
+//	//cout << endl;
+//}
+
+Subscriber print(list <Subscriber> l, list <Subscriber> ::iterator i)
 {
-	cout << "Список содержит следующие элементы:\n\n";
-	list <Subscriber> ::iterator i;
-	for (i = l.begin(); i != l.end(); ++i)
-		cout << *i << endl;
-	cout << endl;
-	//for (Subscriber x : l) // короткий цикл
-	//	cout << x << " ";
-	//cout << endl;
+	if (i != l.end())
+	{
+		print(l, i++);
+		return *i;
+	}
 }
 
 int main()
@@ -103,7 +123,7 @@ int main()
 				}
 			}
 		}
-		print(l);
+		cout<<l;
 
 	} while (select != 4);
 
