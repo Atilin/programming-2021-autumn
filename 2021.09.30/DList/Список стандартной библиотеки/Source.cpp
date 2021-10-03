@@ -29,11 +29,12 @@ ostream& operator << (ostream& st, list <Subscriber> l)
 	}
 	return st;
 }
-istream& operator >> (istream& st, list <Subscriber> l)
+istream& operator >> (istream& st, list <Subscriber> &l)
 {
 	Subscriber x;
 	while (cin >> x)
 	{
+		l.push_back(x);
 		st >> x;
 	}
 	return st;
@@ -73,6 +74,7 @@ int main()
 
 	cin >> l;
 
+	cout << l;
 	cin.clear();
 	int select = 0;
 	do
