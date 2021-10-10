@@ -32,10 +32,10 @@ ostream& operator << (ostream& st, list <Subscriber> l)
 istream& operator >> (istream& st, list <Subscriber> &l)
 {
 	Subscriber x;
-	while (cin >> x)
+	while (st >> x)
 	{
 		l.push_back(x);
-		st >> x;
+		//st >> x;
 	}
 	return st;
 }

@@ -262,12 +262,12 @@ public:
 		return y;
 	}
 
-	//DList& operator = (const DList & l, DNode*& t)
+	//DList& operator = (const DList & l)
 	//{
 	//	if (this == &l) // (a=a)
 	//		return *this;
 	//	del();
-	//	this->head = copy(l.head, t);
+	//	this->head = copy(l.head, tail);
 	//	return *this;
 	//}
 	DList& operator = (const DList& l)
@@ -275,15 +275,14 @@ public:
 		if (this == &l) // (a=a)
 			return *this;
 		del();
-		this->head = copy(l.head);
+		head = copy(l.head);
 
 		tail = head;
 		while (tail->next != nullptr)
 		{
 			tail = tail->next;
 		}
-		//this->tail = tail;
-		this->count = l.count;
+		count = l.count;
 
 		return *this;
 	}
