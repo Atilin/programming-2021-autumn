@@ -27,13 +27,6 @@ void print(vector <double> a)
 	//cout << endl;
 }
 
-//void enlarge(vector <double> &a)
-//{
-//	for (int i = 1; i < a.size(); ++i)
-//	{
-//		a.insert(i, (a[i - 1] + a[i]) / 2);
-//	}
-//}
 template <typename T>
 void enlarge(vector <T> & a)
 {
@@ -43,30 +36,44 @@ void enlarge(vector <T> & a)
 		i = a.insert(i, (*(i - 1) + *i) / 2);
 		++i;
 	}
-	cout << "size == " << a.size() << endl;
 }
 
-//template <typename T>
-//void del(vector <T> & a)
-//{
-//	typename vector <T> ::iterator i;
-//
-//	for (i = a.begin(); i < a.end()-1; ++i)
-//	{
-//		i = a.erase(i);
-//	}
-//}
 template <typename T>
-void del(vector <T>& a)
+void del(vector <T> & a)
+{
+	typename vector <T> ::iterator i;
+
+	for (i = a.begin(); i < a.end(); ++i)
+	{
+		if (i + 1 == a.end())
+		{
+			a.erase(i);
+			break;
+		}
+		a.erase(i);
+	}
+}
+template <typename T>
+void del(vector <T> & a)
 {
 	vector <T> b;
 
-	for (int i = 1; i < a.size(); i+=2)
+	for (int i = 1; i < a.size(); i += 2)
 	{
 		b.push_back(a[i]);
 	}
 	a = b;
 }
+
+template <typename T1, typename T2>
+T1 concat(vector <T1> a, vector <T2> b)
+{
+	a.resize(a.size() + b.size());
+	copy(b.begin(), b.end(), a.begin() + a.size());
+	print(a);
+	return a;
+}
+
 
 
 int main()
@@ -85,6 +92,22 @@ int main()
 	del(a);
 	print(a);
 
+	int cap = a.size();
+	double* arr = new double[cap];
+	copy(a.begin(), a.end(), arr);
+	cout << "copy from vector to arr: ";
+	for (int i = 0; i < cap; ++i)
+	{
+		cout << arr[i] << ' ';
+	}
+	cout << endl;
+
+	vector <double> b{ 32,64,128,256,512 };
+	cout << "a: ";
+	print(a);
+	cout << "b: ";
+	print(b);
+	concat(a, b);
 
 	return EXIT_SUCCESS;
 }
