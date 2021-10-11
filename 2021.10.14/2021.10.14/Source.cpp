@@ -65,15 +65,40 @@ void del(vector <T> & a)
 //	a = b;
 //}
 
-template <typename T1, typename T2>
-T1 concat(vector <T1> a, vector <T2> b)
+//template <typename T1, typename T2>
+//vector<T1> concat(vector <T1> a, vector <T2> b)
+//{
+//	a.resize(a.size() + b.size());
+//	copy(b.begin(), b.end(), a.begin() + a.size());
+//	print(a);
+//	return a;
+//}
+
+vector<double>::iterator find_second(vector <double> a, double num)
 {
-	a.resize(a.size() + b.size());
-	copy(b.begin(), b.end(), a.begin() + a.size());
-	print(a);
-	return a;
+	vector<double>::iterator i;
+	i = find(a.begin(), a.end(), num);
+	if (i == a.end() || i == a.end() - 1)
+	{
+		return i;
+	}
+	return find(i + 1, a.end(), num);
 }
 
+vector<double>::iterator find_last(vector <double> a, double num)
+{
+	vector<double>::iterator i = a.begin();
+	vector<double>::iterator out = a.end();
+	while (i != a.end())
+	{
+		i = find(i+1, a.end(), num);
+		if (i != a.end())
+		{
+			out = i;
+		}
+	}
+	return out;
+}
 
 
 int main()
@@ -84,13 +109,14 @@ int main()
 	{
 		a.push_back(x);
 	}
+	cin.clear();
 	cout << "enlarge: ";
 	enlarge(a);
 	print(a);
 
-	cout << "del: ";
+	/*cout << "del: ";
 	del(a);
-	print(a);
+	print(a);*/
 
 	int cap = a.size();
 	double* arr = new double[cap];
@@ -102,12 +128,18 @@ int main()
 	}
 	cout << endl;
 
-	vector <double> b{ 32,64,128,256,512 };
+	/*vector <double> b{ 32,64,128,256,512 };
 	cout << "a: ";
 	print(a);
 	cout << "b: ";
 	print(b);
-	concat(a, b);
+	concat(a, b);*/
+
+	cout << "enter element which you want to find: ";
+	double element = 0;
+	cin >> element;
+	find_second(a, element);
+
 
 	return EXIT_SUCCESS;
 }
