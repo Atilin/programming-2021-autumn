@@ -53,17 +53,17 @@ void del(vector <T> & a)
 		a.erase(i);
 	}
 }
-template <typename T>
-void del(vector <T> & a)
-{
-	vector <T> b;
-
-	for (int i = 1; i < a.size(); i += 2)
-	{
-		b.push_back(a[i]);
-	}
-	a = b;
-}
+//template <typename T>
+//void del(vector <T> & a)
+//{
+//	vector <T> b;
+//
+//	for (int i = 1; i < a.size(); i += 2)
+//	{
+//		b.push_back(a[i]);
+//	}
+//	a = b;
+//}
 
 template <typename T1, typename T2>
 T1 concat(vector <T1> a, vector <T2> b)
