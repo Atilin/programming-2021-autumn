@@ -91,7 +91,7 @@ vector<double>::iterator find_last(vector <double> a, double num)
 	vector<double>::iterator out = a.end();
 	while (i != a.end())
 	{
-		i = find(i+1, a.end(), num);
+		i = find(i + 1, a.end(), num);
 		if (i != a.end())
 		{
 			out = i;
@@ -99,6 +99,16 @@ vector<double>::iterator find_last(vector <double> a, double num)
 	}
 	return out;
 }
+
+//void neighbour(vector <double> a, double x, int& i, int& j)
+//{
+//	vector<double> ::iterator it;
+//	it = lower_bound(a.begin(), a.end(), x);
+//	if (it == a.end())
+//	{
+//
+//	}
+//}
 
 
 int main()
@@ -110,6 +120,7 @@ int main()
 		a.push_back(x);
 	}
 	cin.clear();
+
 	cout << "enlarge: ";
 	enlarge(a);
 	print(a);
@@ -135,11 +146,21 @@ int main()
 	print(b);
 	concat(a, b);*/
 
-	cout << "enter element which you want to find: ";
+	cout << "enter element which you want to find_second: ";
 	double element = 0;
 	cin >> element;
 	find_second(a, element);
 
+	cout << "enter element which you want to find_last: ";
+	cin >> element;
+	find_last(a, element);
+
+	/*sort(a.begin(), a.end());
+	cin >> x;
+	int i = 0;
+	int j = 0;
+	cin >> i >> j;
+	neighbour(a, x, i, j);*/
 
 	return EXIT_SUCCESS;
 }
