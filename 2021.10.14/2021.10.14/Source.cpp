@@ -50,7 +50,7 @@ void del(vector <T> & a)
 			a.erase(i);
 			break;
 		}
-		a.erase(i);
+		i = a.erase(i);
 	}
 }
 //template <typename T>
@@ -65,14 +65,27 @@ void del(vector <T> & a)
 //	a = b;
 //}
 
-//template <typename T1, typename T2>
-//vector<T1> concat(vector <T1> a, vector <T2> b)
-//{
-//	a.resize(a.size() + b.size());
-//	copy(b.begin(), b.end(), a.begin() + a.size());
-//	print(a);
-//	return a;
-//}
+template <typename T>
+vector<T> concat(vector <T> a, vector <T> b)
+{
+	vector <T> c(a.size() + b.size());
+	copy(a.begin(), a.end(), c.begin());
+	copy(b.begin(), b.end(), c.begin() + a.size());
+	print(c);
+	return c;
+}
+
+template <typename T>
+vector<T> repeat(vector <T> a, int n)
+{
+	vector <T> c(a.size() * n);
+	for (int i = 0; i < n; ++i)
+	{
+		copy(a.begin(), a.end(), c.begin() + i * a.size());
+	}
+	print(c);
+	return c;
+}
 
 vector<double>::iterator find_second(vector <double> a, double num)
 {
@@ -100,15 +113,26 @@ vector<double>::iterator find_last(vector <double> a, double num)
 	return out;
 }
 
-//void neighbour(vector <double> a, double x, int& i, int& j)
-//{
-//	vector<double> ::iterator it;
-//	it = lower_bound(a.begin(), a.end(), x);
-//	if (it == a.end())
-//	{
-//
-//	}
-//}
+void neighbour(vector <double> a, double x, vector<double> ::iterator & i, vector<double> ::iterator & j)
+{
+	vector<double>::iterator it1 = lower_bound(a.begin(), a.end(), x); //perviy element kotory bolshe ili raven
+	vector<double>::iterator it2 = upper_bound(it1, a.end(), x); //perviy element kotory strogo bolshe
+	if (it1 != it2 && it1 == a.begin())
+	{
+		i = it1 + 1;
+		j = it1 + 1;
+	}
+	else if (it1 != it2 && it1 == a.end())
+	{
+		i = it1 - 1;
+		j = it1 - 1;
+	}
+	else if (it1 != it2)
+	{
+		i = it1 - 1;
+		j = it1 + 1;
+	}
+}
 
 
 int main()
@@ -125,9 +149,9 @@ int main()
 	enlarge(a);
 	print(a);
 
-	/*cout << "del: ";
+	cout << "del: ";
 	del(a);
-	print(a);*/
+	print(a);
 
 	int cap = a.size();
 	double* arr = new double[cap];
@@ -139,12 +163,16 @@ int main()
 	}
 	cout << endl;
 
-	/*vector <double> b{ 32,64,128,256,512 };
+	vector <double> b{ 32,64,128,256,512 };
 	cout << "a: ";
 	print(a);
 	cout << "b: ";
 	print(b);
-	concat(a, b);*/
+	concat(a, b);
+
+	cout << "enter how many times you want to repeat the vector: ";
+	cin >> x;
+	repeat(a, x);
 
 	cout << "enter element which you want to find_second: ";
 	double element = 0;
@@ -155,12 +183,12 @@ int main()
 	cin >> element;
 	find_last(a, element);
 
-	/*sort(a.begin(), a.end());
+	sort(a.begin(), a.end());
+	cout << "Enter element relative to which you want to find neighbors: ";
 	cin >> x;
-	int i = 0;
-	int j = 0;
-	cin >> i >> j;
-	neighbour(a, x, i, j);*/
+	vector<double>::iterator i = a.end();
+	vector<double>::iterator j = a.end();
+	neighbour(a, x, i, j);
 
 	return EXIT_SUCCESS;
 }
