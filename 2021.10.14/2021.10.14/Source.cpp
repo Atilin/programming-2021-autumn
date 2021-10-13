@@ -113,24 +113,21 @@ vector<double>::iterator find_last(vector <double> a, double num)
 	return out;
 }
 
-void neighbour(vector <double> a, double x, vector<double> ::iterator & i, vector<double> ::iterator & j)
+void neighbour(vector <double> a, double x, int & i, int & j)
 {
-	vector<double>::iterator it1 = lower_bound(a.begin(), a.end(), x); //perviy element kotory bolshe ili raven
-	vector<double>::iterator it2 = upper_bound(it1, a.end(), x); //perviy element kotory strogo bolshe
-	if (it1 != it2 && it1 == a.begin())
+	vector<double>::iterator it = lower_bound(a.begin(), a.end(), x);
+	if (it == a.end())
 	{
-		i = it1 + 1;
-		j = it1 + 1;
+		++i;
 	}
-	else if (it1 != it2 && it1 == a.end())
+	else if (*it == x)
 	{
-		i = it1 - 1;
-		j = it1 - 1;
+		i = it - a.begin();
+		j = i;
 	}
-	else if (it1 != it2)
+	else
 	{
-		i = it1 - 1;
-		j = it1 + 1;
+		++i;
 	}
 }
 
@@ -186,9 +183,10 @@ int main()
 	sort(a.begin(), a.end());
 	cout << "Enter element relative to which you want to find neighbors: ";
 	cin >> x;
-	vector<double>::iterator i = a.end();
-	vector<double>::iterator j = a.end();
+	int i = 0;
+	int j = 0;
 	neighbour(a, x, i, j);
+	cout << "i = " << i << ", j = " << j << endl;
 
 	return EXIT_SUCCESS;
 }
