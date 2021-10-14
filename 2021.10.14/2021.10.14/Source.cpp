@@ -116,11 +116,7 @@ vector<double>::iterator find_last(vector <double> a, double num)
 void neighbour(vector <double> a, double x, int & i, int & j)
 {
 	vector<double>::iterator it = lower_bound(a.begin(), a.end(), x);
-	if (it == a.end())
-	{
-		++i;
-	}
-	else if (*it == x)
+	if (it != a.end() && *it == x)
 	{
 		i = it - a.begin();
 		j = i;
