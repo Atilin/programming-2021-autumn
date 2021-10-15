@@ -81,57 +81,60 @@ void f1(string& s)
 	s = r;
 }
 
-int f2(string s)
+int f2()
 {
+	char x;
+	int num;
 	stack <int> a;
 
-	//DEBUG
-	//stack <int> a_copy;
-
-	for (int i = 0; i < s.size(); ++i)
+	while (cin >> x)
 	{
-		if (s[i] >= '0' && s[i] <= '9')
+		if (x >= '0' && x <= '9')
 		{
-			a.push(s[i] - '0');
-
-			//DEBUG
-			//cout << "DEBUG: pushed_element = " << a.top() << endl;
+			cin.putback(x);
+			cin >> num;
+			a.push(num);
 		}
-		else
+		if (x == '+' || x == '-' || x == '*' || x == '/')
 		{
-			int y = a.top();
+			int n = a.top();
 			a.pop();
-			int x = a.top();
+			int m = a.top();
 			a.pop();
-			if (s[i] == '+')
+
+			if (x == '+')
 			{
-				a.push(x + y);
+				a.push(m + n);
 			}
-			else if (s[i] == '-')
+			else if (x == '-')
 			{
-				a.push(x - y);
+				a.push(m - n);
 			}
-			else if (s[i] == '*')
+			else if (x == '*')
 			{
-				a.push(x * y);
+				a.push(m * n);
 			}
-			else if (s[i] == '/')
+			else if (x == '/')
 			{
-				a.push(x / y);
+				a.push(m / n);
 			}
 		}
 
 		//DEBUG
-		/*a_copy = a;
-		cout << "DEBUG: stack: ";
+		stack <int> a_copy = a;
+		cout << endl << "DEBUG: " << endl << "stack: ";
 		while (!a_copy.empty())
 		{
 			cout << a_copy.top() << ' ';
 			a_copy.pop();
 		}
-		cout << endl << endl;*/
+		cout << endl << endl;
+		//DEBUG
+
+		return a.top();
 	}
-	return a.top();
+
+
 }
 
 int main()
@@ -146,7 +149,7 @@ int main()
 	f1(s);
 	cout << endl << "Reverse Polish notation: " << s << endl << endl;
 
-	cout << "Result: " << inpt << " = " << f2(s) << endl << endl;
+	cout << "Result: " << inpt << " = " << f2() << endl << endl;
 
 	return EXIT_SUCCESS;
 }
