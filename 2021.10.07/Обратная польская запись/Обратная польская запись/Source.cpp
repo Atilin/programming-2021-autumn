@@ -121,20 +121,18 @@ int f2()
 		}
 
 		//DEBUG
-		stack <int> a_copy = a;
+		/*stack <int> a_copy = a;
 		cout << endl << "DEBUG: " << endl << "stack: ";
 		while (!a_copy.empty())
 		{
 			cout << a_copy.top() << ' ';
 			a_copy.pop();
 		}
-		cout << endl << endl;
+		cout << endl << endl;*/
 		//DEBUG
 
-		return a.top();
 	}
-
-
+	return a.top();
 }
 
 int main()
@@ -149,7 +147,9 @@ int main()
 	f1(s);
 	cout << endl << "Reverse Polish notation: " << s << endl << endl;
 
-	cout << "Result: " << inpt << " = " << f2() << endl << endl;
+	cout << "Enter the resulting expression with spaces: ";
+
+	cout << endl << "Result: " << inpt << " = " << f2() << endl << endl;
 
 	return EXIT_SUCCESS;
 }
