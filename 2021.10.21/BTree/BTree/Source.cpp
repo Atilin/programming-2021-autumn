@@ -55,7 +55,6 @@ struct BTree
 			current = current->left;
 		}
 		father->left = current->right;
-		delete current->left;
 		delete current;
 	}
 
@@ -112,8 +111,6 @@ struct BTree
 		{
 			father->right = nullptr;
 		}
-		delete current->left;
-		delete current->right;
 		delete current;
 	}
 
@@ -168,7 +165,7 @@ int main()
 
 	t.beautiful_print();
 
-	cout << "LEFTMOST:  " << t.leftmost() << endl;
+	cout << "LEFTMOST:  " << t.leftmost()->data << endl;
 
 	t.beautiful_print();
 
@@ -184,7 +181,7 @@ int main()
 
 	t.beautiful_print();
 
-	cout << "LEFTMOST_LEAF:  " << t.leftmost_leaf() << endl;
+	cout << "LEFTMOST_LEAF:  " << t.leftmost_leaf()->data << endl;
 
 	t.beautiful_print();
 
@@ -193,7 +190,7 @@ int main()
 
 	t.beautiful_print();
 
-	cout << "SECOND_LEAF:  " << t.second_leaf() << endl;
+	cout << "SECOND_LEAF:  " << t.second_leaf()->data << endl;
 
 	t.beautiful_print();
 
