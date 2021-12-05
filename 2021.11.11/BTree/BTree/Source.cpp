@@ -91,20 +91,55 @@ int f_eval(BNode * current)
 		return f_eval(current->left) / f_eval(current->right);
 	}
 }
-template <class T>
-BNode* f_find(T d, BNode * current)
+BNode* f_rightmost(BNode * current)
 {
-	if (current != nullptr)
+	if (current == nullptr)
+		return current;
+	while (current->right != nullptr)
 	{
-		if (d == current->data)
-		{
-			return current;
-		}
-		f_find(d, current->left);
-		f_find(d, current->right);
+		current = current->right;
+	}
+	return current;
+}
+//template <class T>
+//BNode* f_find(T d, BNode * current, BNode * rm)
+//{
+//	if (current != nullptr)
+//	{
+//		if (d == current->data)
+//		{
+//			return current;
+//		}
+//		f_find(d, current->left, rm);
+//		f_find(d, current->right, rm);
+//		if (current == rm)
+//		{
+//			return nullptr;
+//		}
+//	}
+//}
+
+
+template <class T>
+BNode* f_find1(T d, BNode * current)
+{
+	BNode* p;
+	if (current == nullptr)
+	{
 		return nullptr;
 	}
+
+	if (d == current->data)
+	{
+		return current;
+	}
+	p=f_find1(d, current->left);
+	if (p != nullptr)
+		return p;
+	else
+		return f_find1(d, current->right);
 }
+
 int f_min(int minimum, BNode * current)
 {
 	if (current != nullptr)
@@ -125,8 +160,6 @@ struct BTree
 {
 	BNode* root;//ukazatel na koren
 	BTree(BNode* p) : root(p) {}
-
-	//BTree(const BTree& t) : root(t.root) {}
 
 	void print()
 	{
@@ -151,6 +184,7 @@ struct BTree
 	{
 		return f_count_neg(root);
 	}
+
 	int height()
 	{
 		return f_height(root);
@@ -167,10 +201,14 @@ struct BTree
 	{
 		return f_eval(root);
 	}
+	BNode* rightmost()
+	{
+		return f_rightmost(root);
+	}
 	template <class T>
 	BNode* find(T d)
 	{
-		return f_find(d, root);
+		return f_find1(d, root);
 	}
 	int min()
 	{
