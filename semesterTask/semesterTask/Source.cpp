@@ -30,9 +30,9 @@ struct BTree
 
 	void print()
 	{
-		cout << endl << "------------------" << endl;
+		cout << endl << "-----------------------------------------------" << endl;
 		f_print(root);
-		cout << endl << "------------------" << endl;
+		cout << "-----------------------------------------------" << endl;
 	}
 
 };
@@ -242,17 +242,12 @@ void makeNameExpr(string s, string & name, string & expr)
 	{
 		name += s[i];
 		++i;
-		cout << name << endl;
 	}
 	++i;
-
-	cout << endl;
-
 	while (i < s.size())
 	{
 		expr += s[i];
 		++i;
-		cout << expr << endl;
 	}
 }
 
@@ -275,6 +270,7 @@ int main()
 
 		string name = "";
 		string expr = "";
+
 		makeNameExpr(str, name, expr);
 
 		funcNames.push_back(name);
@@ -296,15 +292,15 @@ int main()
 	BTree expr(root);
 	expr.print();
 
-	//for (int i = 0; i < funcNames.size(); ++i)
-	//{
-	//	cout << funcNames[i] << ' ';
-	//}
+	for (int i = 0; i < funcNames.size(); ++i)
+	{
+		cout << funcNames[i] << ' ';
+	}
 
-	//for (int i = 0; i < funcTree.size(); ++i)
-	//{
-	//	funcTree[i].print();
-	//}
+	for (int i = 0; i < funcTree.size(); ++i)
+	{
+		funcTree[i].print();
+	}
 
 
 	return EXIT_SUCCESS;
