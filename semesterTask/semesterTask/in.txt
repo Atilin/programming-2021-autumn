@@ -1,4 +1,0 @@
-t+23+e^(15+25.6)-sin(x)
-f(x)=15+x
-abc(yt)=yt*222
-bubub(aha)=sin(aha)

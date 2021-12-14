@@ -64,9 +64,12 @@ void f_enlarge(int d, BNode * &current)
 {
 	if (current != nullptr)
 	{
-		if (current->left == nullptr)
+		f_enlarge(d, current->left);
+		f_enlarge(d, current->right);
+		if (current->left == nullptr && current->right == nullptr)
 		{
 			current->left = new BNode(d);
+			current->right = new BNode(d);
 		}
 	}
 }
@@ -96,6 +99,10 @@ struct BTree
 	{
 		f_delLeaves(root);
 	}
+	void enlarge(int d)
+	{
+		f_enlarge(d, root);
+	}
 
 };
 
@@ -120,11 +127,15 @@ int main()
 
 	t.print();
 
-	//cout << "DEL_LEAVES:";
-	//t.delLeaves();
+	cout << "DEL_LEAVES:";
+	t.delLeaves();
 
 	t.print();
 
+	cout << "ENLARGE:" << endl;
+	t.enlarge(777);
+
+	t.print();
 
 	return EXIT_SUCCESS;
 }
