@@ -381,7 +381,7 @@ void isFits(BNode * tree, BNode * subtree, bool& flagFits, vector <pair<string, 
 	}
 }
 
-void countVariable(string name, vector <pair<string, vector<BNode*>>> & knots)//считает количество различных переменных и заполняет вектор этими переменными
+void countVariable(string name, vector <pair<string, vector<BNode*>>> & knots, vector <pair<string, string>> & nameAndInterpretation)//считает количество различных переменных и заполняет вектор этими переменными
 {
 	int i = 0;
 	while (name[i] != '(')
@@ -400,6 +400,11 @@ void countVariable(string name, vector <pair<string, vector<BNode*>>> & knots)//
 		pair<string, vector < BNode*>> p;
 		p.first = s;
 		knots.push_back(p);
+
+		pair<string, string> q;
+		q.first = s;
+		nameAndInterpretation.push_back(q);
+
 		if (name[i] == ')')
 		{
 			--i;
@@ -482,12 +487,39 @@ void cleverCountKnots(BNode * tree, BNode * subtree, int& n)
 	}
 }
 
-void composition(BNode * currentRoot, vector <BNode*> funcRoots, vector <string> funcNames, int allKnots, int& currentNumberOfKnots, bool& isYeah)
+void fillNameAndInterpretation(BNode* tree, BNode* subtree, vector <pair<string, string>>& nameAndInterpretation)
+{
+	if (subtree != nullptr)
+	{
+		if (subtree->left == nullptr)
+		{
+			for (int i = 0; i < nameAndInterpretation.size(); ++i)
+			{
+				if (nameAndInterpretation[i].first == subtree->data)
+				{
+					if (tree->data == "+" || tree->data == "-" || tree->data == "*" || tree->data == "/" || tree->data == "^" || tree->data == "sin" || tree->data == "cos" || tree->data == "tg" || tree->data == "ctg")
+					{
+						nameAndInterpretation[i].second = "";
+					}
+					else
+					{
+						nameAndInterpretation[i].second = tree->data;
+					}
+				}
+			}
+		}
+		fillNameAndInterpretation(tree->left, subtree->left, nameAndInterpretation);
+		fillNameAndInterpretation(tree->right, subtree->right, nameAndInterpretation);
+	}
+}
+
+void composition(BNode * currentRoot, vector <BNode*> funcRoots, vector <string> funcNames, int allKnots, int& currentNumberOfKnots, bool& isYeah, string & output)
 {
 	if (isYeah == true)
 	{
 		return;
 	}
+
 	for (int i = 0; i < funcRoots.size(); ++i)
 	{
 		if (isYeah == true)
@@ -496,37 +528,40 @@ void composition(BNode * currentRoot, vector <BNode*> funcRoots, vector <string>
 		}
 		bool flagFits = 1;
 		vector <pair<string, vector<BNode*>>> knots;
-		countVariable(funcNames[i], knots);
+		vector <pair<string, string>> nameAndInterpretation;
+
+		countVariable(funcNames[i], knots, nameAndInterpretation);
+
 		isFits(currentRoot, funcRoots[i], flagFits, knots);
 
-		//cout << "DEBUG: testing function " << i + 1 << endl;
+		//cout << "DEBUG 1: testing function " << i + 1 << " output=" << output << endl;
 
 		if (flagFits == 1)
 		{
 
-			//cout << "DEBUG: C2" << endl;
+			//cout << "DEBUG: C2" << " output=" << output << endl;
 
 			for (int j = 0; j < knots.size(); ++j)//проверка на одинаковость поддеревьев
 			{
 
-				//cout << "DEBUG: C3" << endl;
+				//cout << "DEBUG: C3" << " output=" << output << endl;
 
 				if (knots[j].second.size() > 1)
 				{
 
-					//cout << "DEBUG: C4" << endl;
+					//cout << "DEBUG: C4" << " output=" << output << endl;
 
 					for (int k = 1; k < knots[j].second.size(); ++k)
 					{
 
-						//cout << "DEBUG: C5" << endl;
+						//cout << "DEBUG: C5" << " output=" << output << endl;
 
 						bool flagEqual = 1;
 						isEqualSubtrees(knots[j].second[0], knots[j].second[k], flagEqual);
 						if (flagEqual == 0)
 						{
 
-							//cout << "DEBUG: C6" << endl;
+							//cout << "DEBUG: C6" << " output=" << output << endl;
 
 							flagFits = 0;
 							break;
@@ -535,7 +570,7 @@ void composition(BNode * currentRoot, vector <BNode*> funcRoots, vector <string>
 					if (flagFits == 0)
 					{
 
-						//cout << "DEBUG: C7" << endl;
+						//cout << "DEBUG: C7" << " output=" << output << endl;
 
 						break;
 					}
@@ -544,7 +579,12 @@ void composition(BNode * currentRoot, vector <BNode*> funcRoots, vector <string>
 			if (flagFits == 1)
 			{
 
-				//cout << "DEBUG: C8" << endl;
+				for (int a = 0; funcNames[i][a] != '('; ++a)
+				{
+					output += funcNames[i][a];
+				}
+
+				//cout << "DEBUG: C8" << " output=" << output << endl;
 
 				int n = 0;
 				cleverCountKnots(currentRoot, funcRoots[i], n);
@@ -555,28 +595,42 @@ void composition(BNode * currentRoot, vector <BNode*> funcRoots, vector <string>
 				if (currentNumberOfKnots == allKnots)
 				{
 
-					//cout << "DEBUG: C9" << endl;
+					//cout << "DEBUG: C9" << " output=" << output << endl;
 
 					isYeah = true;
-					//cout << output;
 				}
-				else
+
+
+				//cout << "DEBUG: C10" << " output=" << output << endl;
+				//cout <<"KNOTS_SIZE: "<< knots.size()<<endl;
+				//cout << "KNOTS[0].SECOND.SIZE(): " << knots[0].second.size() << endl;
+
+				output += '(';
+
+				fillNameAndInterpretation(currentRoot, funcRoots[i], nameAndInterpretation);
+
+				for (int m = 0; m < knots.size(); ++m)
 				{
+					int r = 0;
+					countKnots(knots[m].second[0], r);//посчитали количество узлов в одном из одинаковых поддеревьев
+					currentNumberOfKnots += r * (knots[m].second.size() - 1);//заполнили те ветки, которые не рассматриваем
 
-					//cout << "DEBUG: C10" << endl;
-					//cout <<"KNOTS_SIZE: "<< knots.size()<<endl;
-					//cout << "KNOTS[0].SECOND.SIZE(): " << knots[0].second.size() << endl;
+					composition(knots[m].second[0], funcRoots, funcNames, allKnots, currentNumberOfKnots, isYeah, output);
 
-					for (int m = 0; m < knots.size(); ++m)
+					output += nameAndInterpretation[m].second;
+
+					if (m < knots.size() - 1)
 					{
-						int r = 0;
-						countKnots(knots[m].second[0], r);//посчитали количество узлов в одном из одинаковых поддеревьев
-						currentNumberOfKnots += r * (knots[m].second.size() - 1);//заполнили те ветки, которые не рассматриваем
-
-						composition(knots[m].second[0], funcRoots, funcNames, allKnots, currentNumberOfKnots, isYeah);
+						output += ',';
 					}
 				}
+
+				output += ')';
 			}
+		}
+		if (flagFits == 1)
+		{
+			break;
 		}
 	}
 }
@@ -612,11 +666,11 @@ int main()
 	BNode* root = new BNode("");
 	makeTree(expression, root, 0, expression.size());
 
-	print(root);
+	/*print(root);
 	for (int i = 0; i < funcRoots.size(); ++i)
 	{
 		print(funcRoots[i]);
-	}
+	}*/
 
 	/*string ss = "cos(z)";
 	BNode* root1 = new BNode("");
@@ -627,20 +681,22 @@ int main()
 	cout << "IS_FITS: " << flagFits << endl;*/
 
 
-	//string output = "POSSIBLE";
+	string output = "";
 	int allKnots = 0;
 	countKnots(root, allKnots);
 	int currentNumberOfKnots = 0;
 	bool isYeah = false;
-	composition(root, funcRoots, funcNames, allKnots, currentNumberOfKnots, isYeah);
+	composition(root, funcRoots, funcNames, allKnots, currentNumberOfKnots, isYeah, output);
 	if (isYeah == 0)
 	{
 		fout << "IMPOSSIBLE" << endl;
 	}
 	else
 	{
-		fout << "POSSIBLE" << endl;
+		fout << output << endl;
 	}
+
+	//cout << "FINAL_OUTPUT: " << output << endl;
 
 	fout.close();
 	fin.close();
