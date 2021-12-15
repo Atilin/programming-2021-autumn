@@ -1,1 +1,1 @@
-g(f(5,x))
+IMPOSSIBLE
