@@ -1,3 +1,5 @@
-(5*x)^(5*x)
-f(n,m)=n*m
-g(z)=z^z+1
+(aa+bb+((x+t)^(x+y)+2^(aa+bb+ee)^ss+(x+t)*(x+y)*((aa+bb+ee)^ss)))^yy
+f(m)=m
+g(u,v,w)=u^v+2^w+u*v*w
+h(b,c)=b+c
+k(p,yy)=p^yy
