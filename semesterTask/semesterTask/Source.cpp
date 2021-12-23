@@ -137,7 +137,7 @@ void makeTree(string s, BNode * current, int beg, int end)
 			flag2 = 1;
 			ind2 = i;
 		}
-		else if (flag3 == 0 && s[i] == '^')
+		else if (s[i] == '^')
 		{
 			flag3 = 1;
 			ind3 = i;
@@ -691,11 +691,11 @@ int main()
 	BNode* root = new BNode("");
 	makeTree(expression, root, 0, expression.size());
 
-	/*print(root);
+	print(root);
 	for (int i = 0; i < funcRoots.size(); ++i)
 	{
 		print(funcRoots[i]);
-	}*/
+	}
 
 	if (isNoOperations(root))
 	{
